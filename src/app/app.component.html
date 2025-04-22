@@ -44,6 +44,24 @@
           <mat-icon>exit_to_app</mat-icon>
           <span>Cerrar Sesión</span>
         </a>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Información</h3>
+        <a mat-list-item routerLink="/info/ayuda" routerLinkActive="active">
+          <mat-icon>help</mat-icon>
+          <span>Centro de ayuda</span>
+        </a>
+        <a mat-list-item routerLink="/info/contacto" routerLinkActive="active">
+          <mat-icon>contact_support</mat-icon>
+          <span>Contacto</span>
+        </a>
+        <a mat-list-item routerLink="/info/terminos" routerLinkActive="active">
+          <mat-icon>gavel</mat-icon>
+          <span>Términos</span>
+        </a>
+        <a mat-list-item routerLink="/info/privacidad" routerLinkActive="active">
+          <mat-icon>security</mat-icon>
+          <span>Privacidad</span>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
 
@@ -161,14 +179,14 @@
             <div class="footer-links-modern">
               <div class="footer-links-column">
                 <h3 class="footer-heading-modern">Ayuda</h3>
-                <a routerLink="/info/ayuda">Centro de ayuda</a>
-                <a routerLink="/info/contacto">Contacto</a>
+                <a routerLink="/info/ayuda" routerLinkActive="active-footer-link" class="footer-link">Centro de ayuda</a>
+                <a routerLink="/info/contacto" routerLinkActive="active-footer-link" class="footer-link">Contacto</a>
               </div>
               
               <div class="footer-links-column">
                 <h3 class="footer-heading-modern">Legal</h3>
-                <a routerLink="/info/terminos">Términos</a>
-                <a routerLink="/info/privacidad">Privacidad</a>
+                <a routerLink="/info/terminos" routerLinkActive="active-footer-link" class="footer-link">Términos</a>
+                <a routerLink="/info/privacidad" routerLinkActive="active-footer-link" class="footer-link">Privacidad</a>
               </div>
             </div>
             
