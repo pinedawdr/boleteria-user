@@ -8,26 +8,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./contacto.component.scss']
 })
 export class ContactoComponent implements OnInit {
-  contactForm: FormGroup;
+  contactForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['consulta', Validators.required],
+    message: ['', [Validators.required, Validators.minLength(20)]]
+  });
+  
   loading = false;
 
   constructor(
     private fb: FormBuilder, 
     private snackBar: MatSnackBar
-  ) {
-    this.createForm();
-  }
+  ) { }
 
   ngOnInit(): void {
-  }
-
-  createForm(): void {
-    this.contactForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      subject: ['consulta', Validators.required],
-      message: ['', [Validators.required, Validators.minLength(20)]]
-    });
   }
 
   onSubmit(): void {
