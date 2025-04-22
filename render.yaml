@@ -3,7 +3,7 @@ services:
     name: boleteria-user-platform
     env: node
     buildCommand: npm install && npm run build --configuration production
-    startCommand: npx serve dist/boleteria-user-platform
+    startCommand: npm run start:prod
     envVars:
       - key: NODE_ENV
         value: production
