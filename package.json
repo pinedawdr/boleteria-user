@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build boleteria-user-platform",
+    "build:prod": "ng build boleteria-user-platform --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start:prod": "serve dist/boleteria-user-platform"
