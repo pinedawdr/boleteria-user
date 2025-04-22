@@ -23,10 +23,6 @@
           <mat-icon>directions_bus</mat-icon>
           <span>Transporte</span>
         </a>
-        <a mat-list-item routerLink="/wallet" routerLinkActive="active">
-          <mat-icon>account_balance_wallet</mat-icon>
-          <span>Mi Wallet</span>
-        </a>
         <mat-divider></mat-divider>
         <a mat-list-item *ngIf="!isLoggedIn" routerLink="/auth/login">
           <mat-icon>login</mat-icon>
@@ -87,7 +83,6 @@
               <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
               <a routerLink="/eventos" routerLinkActive="active" class="nav-link">Eventos</a>
               <a routerLink="/transporte" routerLinkActive="active" class="nav-link">Transporte</a>
-              <a routerLink="/wallet" routerLinkActive="active" class="nav-link">Mi Wallet</a>
             </nav>
           </div>
 
@@ -128,10 +123,6 @@
               <a mat-menu-item routerLink="/perfil">
                 <mat-icon>person</mat-icon>
                 <span>Mi Perfil</span>
-              </a>
-              <a mat-menu-item routerLink="/wallet">
-                <mat-icon>account_balance_wallet</mat-icon>
-                <span>Mi Wallet</span>
               </a>
               <a mat-menu-item routerLink="/historial">
                 <mat-icon>history</mat-icon>
