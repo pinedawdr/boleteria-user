@@ -1,0 +1,179 @@
+// Estilos compartidos para tarjetas y elementos visuales
+@import '../variables';
+@import '../mixins';
+
+// Estilos base para todas las tarjetas en la aplicación
+.app-card {
+  background: $dark-bg-secondary;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  transition: all $transition-base;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba($primary-color, 0.15);
+    border-color: rgba($primary-color, 0.3);
+  }
+}
+
+// Estilos para tarjetas de contenido
+.content-card {
+  @extend .app-card;
+  padding: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// Estilos para form cards (login, registro, etc.)
+.form-card {
+  @extend .app-card;
+  padding: $spacing-lg;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+// Estilos para secciones y contenedores
+.section-container {
+  padding: $spacing-xl 0;
+  
+  .section-header {
+    margin-bottom: $spacing-xl;
+    
+    &.with-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      @media (max-width: $breakpoint-md) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $spacing-sm;
+      }
+    }
+    
+    &.centered {
+      text-align: center;
+    }
+  }
+  
+  .section-title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    margin-bottom: $spacing-xs;
+    background: linear-gradient(90deg, $text-primary 0%, rgba($text-primary, 0.8) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: $font-size-xl;
+    }
+  }
+  
+  .section-subtitle {
+    font-size: $font-size-md;
+    color: $text-secondary;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// Grid layouts estandarizados
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-xl;
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Animaciones compartidas
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Clases para animaciones
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+// Estilos para botones de acción
+.action-button {
+  background-color: rgba($primary-color, 0.1);
+  color: $primary-color;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  padding: $spacing-xs $spacing-md;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  
+  &:hover {
+    background-color: rgba($primary-color, 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+// Estilos para pills y badges
+.app-pill {
+  background-color: rgba($dark-bg-secondary, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: $text-secondary;
+  border-radius: $border-radius-full;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  
+  &:hover {
+    background-color: rgba($primary-color, 0.1);
+    color: $text-primary;
+  }
+  
+  &.active {
+    background-color: rgba($primary-color, 0.2);
+    color: $primary-color;
+    border-color: rgba($primary-color, 0.3);
+  }
+}
+
+// Estilos para fondos de página coherentes
+.page-background {
+  background: linear-gradient(135deg, #000000 70%, #2a1a4a 130%);
+  min-height: 100vh;
+}

@@ -25,6 +25,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/buscar/buscar.module').then(m => m.BuscarModule)
   },
   {
+    path: 'info',
+    loadChildren: () => import('./pages/info/info.module').then(m => m.InfoModule)
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },

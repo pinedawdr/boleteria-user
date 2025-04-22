@@ -1,0 +1,46 @@
+<div class="page-container">
+  <div class="container">
+    <header class="help-header">
+      <h1 class="header-title">Centro de Ayuda</h1>
+      <p class="header-subtitle">Encuentra respuestas a tus preguntas más frecuentes</p>
+    </header>
+
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar ayuda</mat-label>
+        <input matInput placeholder="Escribe tu pregunta aquí" [(ngModel)]="searchQuery">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="help-categories">
+      <div class="category-item" *ngFor="let category of categories" (click)="filterByCategory(category.name)">
+        <div class="category-icon">
+          <mat-icon>{{category.icon}}</mat-icon>
+        </div>
+        <h3 class="category-name">{{category.name}}</h3>
+      </div>
+    </div>
+
+    <div class="faq-container">
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <mat-accordion class="faq-accordion">
+        <mat-expansion-panel *ngFor="let faq of filteredFaqs">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{faq.question}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="faq-answer" [innerHTML]="faq.answer"></div>
+          <div class="faq-category-tag">{{faq.category}}</div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="contact-section">
+      <h2 class="section-title">¿No encontraste lo que buscabas?</h2>
+      <p class="contact-text">Nuestro equipo de atención al cliente está disponible para ayudarte.</p>
+      <button mat-raised-button color="primary" [routerLink]="['/info/contacto']">Contactar con Soporte</button>
+    </div>
+  </div>
+</div>

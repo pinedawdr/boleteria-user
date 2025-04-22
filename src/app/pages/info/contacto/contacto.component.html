@@ -1,0 +1,120 @@
+<div class="page-container">
+  <div class="container">
+    <header class="contact-header">
+      <h1 class="header-title">Contáctanos</h1>
+      <p class="header-subtitle">Estamos aquí para ayudarte. Envíanos tu consulta y te responderemos a la brevedad posible.</p>
+    </header>
+
+    <div class="contact-content">
+      <div class="contact-form-container">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre completo</mat-label>
+              <input matInput formControlName="name" placeholder="Tu nombre y apellido">
+              <mat-error *ngIf="contactForm.controls['name'].hasError('required')">
+                El nombre es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Correo electrónico</mat-label>
+              <input matInput formControlName="email" placeholder="tucorreo@ejemplo.com">
+              <mat-error *ngIf="contactForm.controls['email'].hasError('required')">
+                El correo es requerido
+              </mat-error>
+              <mat-error *ngIf="contactForm.controls['email'].hasError('email')">
+                Ingresa un correo electrónico válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Asunto</mat-label>
+              <mat-select formControlName="subject">
+                <mat-option value="consulta">Consulta general</mat-option>
+                <mat-option value="boletos">Consulta sobre boletos</mat-option>
+                <mat-option value="transporte">Consulta sobre transporte</mat-option>
+                <mat-option value="reembolso">Solicitud de reembolso</mat-option>
+                <mat-option value="problema">Reporte de problema</mat-option>
+                <mat-option value="otro">Otro</mat-option>
+              </mat-select>
+              <mat-error *ngIf="contactForm.controls['subject'].hasError('required')">
+                El asunto es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Mensaje</mat-label>
+              <textarea matInput formControlName="message" rows="6" placeholder="Describe tu consulta con el mayor detalle posible"></textarea>
+              <mat-error *ngIf="contactForm.controls['message'].hasError('required')">
+                El mensaje es requerido
+              </mat-error>
+              <mat-error *ngIf="contactForm.controls['message'].hasError('minlength')">
+                El mensaje debe tener al menos 20 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid || loading">
+              <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+              <span *ngIf="!loading">Enviar mensaje</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="contact-info-container">
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <mat-icon>location_on</mat-icon>
+          </div>
+          <h3 class="contact-card-title">Oficina principal</h3>
+          <p class="contact-card-text">Av. San Martín 123, Lima, Perú</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <mat-icon>phone</mat-icon>
+          </div>
+          <h3 class="contact-card-title">Teléfono</h3>
+          <p class="contact-card-text">+51 1 555-1234</p>
+          <p class="contact-card-text">Lunes a Viernes: 9am - 6pm</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <mat-icon>email</mat-icon>
+          </div>
+          <h3 class="contact-card-title">Correo electrónico</h3>
+          <p class="contact-card-text">soporte@boleteria.pe</p>
+          <p class="contact-card-text">Tiempo de respuesta: 24-48 horas</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <mat-icon>groups</mat-icon>
+          </div>
+          <h3 class="contact-card-title">Redes sociales</h3>
+          <div class="social-links">
+            <a href="https://facebook.com" target="_blank" class="social-link">
+              <mat-icon>facebook</mat-icon>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-link">
+              <mat-icon>photo_camera</mat-icon>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="social-link">
+              <mat-icon>alternate_email</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,186 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+@import '../../../../styles/components/card-styles';
+
+.page-container {
+  padding: $spacing-2xl 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.help-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+  
+  .header-title {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(90deg, $text-primary 0%, rgba($text-primary, 0.8) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .header-subtitle {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto $spacing-2xl;
+  
+  .search-field {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgba($text-tertiary, 0.3);
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: $primary-color;
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.5em 0;
+  }
+}
+
+.help-categories {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .category-item {
+    @extend .content-card;
+    padding: $spacing-lg;
+    text-align: center;
+    cursor: pointer;
+    transition: all $transition-base;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba($primary-color, 0.15);
+      border-color: rgba($primary-color, 0.3);
+    }
+    
+    .category-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: $border-radius-full;
+      background: rgba($primary-color, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto $spacing-md;
+      transition: all $transition-base;
+      
+      .mat-icon {
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+        color: $primary-color;
+      }
+    }
+    
+    &:hover .category-icon {
+      background: $gradient-violet;
+      
+      .mat-icon {
+        color: $light-bg;
+      }
+    }
+    
+    .category-name {
+      font-size: $font-size-md;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+}
+
+.faq-container {
+  margin-bottom: $spacing-2xl;
+  
+  .section-title {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+  }
+  
+  .faq-accordion {
+    .mat-expansion-panel {
+      background: $dark-bg-secondary;
+      margin-bottom: $spacing-md;
+      border-radius: $border-radius-md !important;
+      overflow: hidden;
+      
+      .mat-expansion-panel-header {
+        padding: $spacing-md $spacing-lg;
+        
+        .mat-panel-title {
+          color: $text-primary;
+          font-size: $font-size-md;
+          font-weight: 500;
+        }
+      }
+      
+      .faq-answer {
+        color: $text-secondary;
+        line-height: 1.6;
+        margin-bottom: $spacing-md;
+      }
+      
+      .faq-category-tag {
+        display: inline-block;
+        font-size: $font-size-xs;
+        font-weight: 600;
+        color: $primary-color;
+        background-color: rgba($primary-color, 0.1);
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-full;
+      }
+    }
+  }
+}
+
+.contact-section {
+  text-align: center;
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid rgba($text-tertiary, 0.1);
+  
+  .section-title {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+  }
+  
+  .contact-text {
+    color: $text-secondary;
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-md;
+  }
+  
+  button {
+    padding: $spacing-sm $spacing-xl;
+  }
+}
