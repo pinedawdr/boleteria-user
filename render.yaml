@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: boleteria-user-platform
+    env: node
+    buildCommand: npm install && npm run build --configuration production
+    startCommand: npx serve dist/boleteria-user-platform
+    envVars:
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /
+    autoDeploy: true 
