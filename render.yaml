@@ -2,10 +2,10 @@ services:
   - type: web
     name: boleteria-user-platform
     env: node
-    buildCommand: npm install && npm run build:prod
+    buildCommand: npm install
     startCommand: npm run start:prod
     envVars:
       - key: NODE_ENV
         value: production
     healthCheckPath: /
-    autoDeploy: true 
+    autoDeploy: true
