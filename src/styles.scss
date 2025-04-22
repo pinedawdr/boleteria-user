@@ -1,14 +1,14 @@
+/* Importar los estilos prebuilt de Angular Material */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Importar estilos personalizados */
 @import 'styles/variables';
 @import 'styles/mixins';
 @import 'styles/global';
-@import 'styles/components'; // Agregamos la importación de componentes reutilizables
-@import 'styles/_forms'; // Importar el nuevo archivo de formularios
-@import 'styles/themes/dark-theme';
+@import 'styles/components';
+@import 'styles/forms';
 
-// Aplicación del tema Angular Material
-@include mat-core();
-
-// Estilos globales adicionales
+/* Estilos globales adicionales */
 html, body {
   height: 100%;
   margin: 0;

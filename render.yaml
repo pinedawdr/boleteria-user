@@ -2,7 +2,7 @@ services:
   - type: web
     name: boleteria-user-platform
     env: node
-    buildCommand: npm install
+    buildCommand: npm install --legacy-peer-deps && npm run build:prod
     startCommand: npm run start:prod
     envVars:
       - key: NODE_ENV
