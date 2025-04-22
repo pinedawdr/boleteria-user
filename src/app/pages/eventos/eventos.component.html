@@ -1,0 +1,112 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">Eventos</h1>
+    <p class="page-subtitle">Encuentra y reserva los mejores eventos en todo el Perú</p>
+  </header>
+
+  <section class="filter-section">
+    <h2 class="filter-title">Filtrar eventos</h2>
+    <form class="filter-form">
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <select id="category" class="form-control">
+          <option value="">Todas las categorías</option>
+          <option value="conciertos">Conciertos</option>
+          <option value="teatro">Teatro y espectáculos</option>
+          <option value="deportes">Eventos deportivos</option>
+          <option value="workshops">Workshops y conferencias</option>
+          <option value="festivales">Festivales</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="date">Fecha</label>
+        <input type="date" id="date" class="form-control">
+      </div>
+      
+      <div class="form-group">
+        <label for="location">Ubicación</label>
+        <select id="location" class="form-control">
+          <option value="">Todas las ubicaciones</option>
+          <option value="lima">Lima</option>
+          <option value="arequipa">Arequipa</option>
+          <option value="cusco">Cusco</option>
+          <option value="trujillo">Trujillo</option>
+        </select>
+      </div>
+      
+      <div class="filter-actions">
+        <button type="button" class="filter-btn">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="events-categories">
+    <div class="categories-list">
+      <button class="category-pill active" (click)="filterByCategory('all')">Todos</button>
+      <button class="category-pill" (click)="filterByCategory('conciertos')">Conciertos</button>
+      <button class="category-pill" (click)="filterByCategory('teatro')">Teatro</button>
+      <button class="category-pill" (click)="filterByCategory('deportes')">Deportes</button>
+      <button class="category-pill" (click)="filterByCategory('workshops')">Workshops</button>
+      <button class="category-pill" (click)="filterByCategory('festivales')">Festivales</button>
+    </div>
+  </section>
+
+  <section class="events-list">
+    <div class="grid-layout events-grid">
+      <div class="event-item" *ngFor="let event of events">
+        <div class="event-card-modern">
+          <div class="event-image">
+            <img [src]="event.imageUrl" [alt]="event.title">
+            <div class="event-date-badge">
+              <span class="event-day">{{ event.date | date:'dd' }}</span>
+              <span class="event-month">{{ event.date | date:'MMM' | uppercase }}</span>
+            </div>
+          </div>
+          <div class="event-content">
+            <div class="event-category">{{ event.category }}</div>
+            <h3 class="event-title">{{ event.title }}</h3>
+            <div class="event-details">
+              <div class="event-location">
+                <i class="bi bi-geo-alt"></i>
+                <span>{{ event.location }}</span>
+              </div>
+              <div class="event-time">
+                <i class="bi bi-clock"></i>
+                <span>{{ event.time }}</span>
+              </div>
+            </div>
+            <div class="event-footer">
+              <div class="event-price">
+                <span class="price-label">Desde</span>
+                <span class="price-value">S/{{ event.price }}</span>
+              </div>
+              <button class="event-btn" [routerLink]="['/eventos', event.id]">Ver detalles</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pagination" *ngIf="events.length > 0">
+      <button class="page-item" [class.disabled]="currentPage === 1">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button class="page-item" [class.active]="currentPage === 1">1</button>
+      <button class="page-item" [class.active]="currentPage === 2">2</button>
+      <button class="page-item" [class.active]="currentPage === 3">3</button>
+      <button class="page-item">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+    
+    <div class="empty-state" *ngIf="events.length === 0">
+      <i class="bi bi-calendar-x empty-icon"></i>
+      <h3 class="empty-title">No hay eventos disponibles</h3>
+      <p class="empty-message">No hemos encontrado eventos que coincidan con tus criterios de búsqueda. Intenta modificar los filtros o búsqueda.</p>
+      <button class="empty-action" (click)="resetFilters()">Ver todos los eventos</button>
+    </div>
+  </section>
+</div>

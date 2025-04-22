@@ -1,0 +1,258 @@
+<div class="checkout-container">
+  <div class="checkout-header">
+    <button class="back-btn" (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Volver a resultados
+    </button>
+    <h2 class="checkout-title">Completar reserva</h2>
+  </div>
+  
+  <div class="checkout-summary">
+    <div class="summary-header">
+      <div class="transport-info">
+        <div [ngClass]="{'bus-icon': transportOption.type === 'bus', 'flight-icon': transportOption.type === 'avion'}">
+          <mat-icon>{{ transportOption.type === 'bus' ? 'directions_bus' : 'flight' }}</mat-icon>
+        </div>
+        <div class="transport-company">
+          <img [src]="transportOption.companyLogo" [alt]="transportOption.companyName" class="company-logo">
+          <span class="company-name">{{ transportOption.companyName }}</span>
+        </div>
+      </div>
+      <div class="route-badge">
+        {{ transportOption.origin }} → {{ transportOption.destination }}
+      </div>
+    </div>
+    
+    <div class="summary-details">
+      <div class="detail-item">
+        <span class="detail-label">Fecha</span>
+        <span class="detail-value">{{ transportOption.date | date:'dd MMM yyyy' }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Salida</span>
+        <span class="detail-value">{{ transportOption.departureTime }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Llegada</span>
+        <span class="detail-value">{{ transportOption.arrivalTime }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Duración</span>
+        <span class="detail-value">{{ transportOption.duration }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Clase</span>
+        <span class="detail-value">{{ transportOption.class }}</span>
+      </div>
+    </div>
+    
+    <div class="summary-price">
+      <div class="price-breakdown">
+        <div class="price-item">
+          <span class="price-label">Precio por persona</span>
+          <span class="price-value">S/{{ transportOption.price }}</span>
+        </div>
+        <div class="price-item">
+          <span class="price-label">Cantidad de pasajeros</span>
+          <span class="price-value">{{ passengers }}</span>
+        </div>
+      </div>
+      <div class="total-price">
+        <span class="total-label">Total</span>
+        <span class="total-value">S/{{ +transportOption.price * passengers }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="checkout-form">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <!-- Paso 1: Información de pasajeros -->
+      <mat-step [stepControl]="checkoutForm.get('passengerInfo')!">
+        <ng-template matStepLabel>Pasajeros</ng-template>
+        <form [formGroup]="checkoutForm">
+          <div formArrayName="passengerInfo">
+            <div *ngFor="let passengerForm of passengerForms.controls; let i = index" class="passenger-form">
+              <h3 class="form-section-title">Pasajero {{ i + 1 }}</h3>
+              <div [formGroupName]="i" class="passenger-details">
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput formControlName="firstName" placeholder="Nombres">
+                    <mat-error *ngIf="passengerForm.get('firstName')?.hasError('required')">
+                      El nombre es requerido
+                    </mat-error>
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput formControlName="lastName" placeholder="Apellidos">
+                    <mat-error *ngIf="passengerForm.get('lastName')?.hasError('required')">
+                      El apellido es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tipo de documento</mat-label>
+                    <mat-select formControlName="docType">
+                      <mat-option value="dni">DNI</mat-option>
+                      <mat-option value="passport">Pasaporte</mat-option>
+                      <mat-option value="ce">Carnet de Extranjería</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline">
+                    <mat-label>Número de documento</mat-label>
+                    <input matInput formControlName="docNumber" placeholder="Número de documento">
+                    <mat-error *ngIf="passengerForm.get('docNumber')?.hasError('required')">
+                      El número de documento es requerido
+                    </mat-error>
+                    <mat-error *ngIf="passengerForm.get('docNumber')?.hasError('pattern')">
+                      Ingrese un número de documento válido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button mat-button matStepperNext class="next-btn">Continuar</button>
+          </div>
+        </form>
+      </mat-step>
+      
+      <!-- Paso 2: Información de contacto -->
+      <mat-step [stepControl]="checkoutForm.get('contactInfo')!">
+        <ng-template matStepLabel>Datos de contacto</ng-template>
+        <form [formGroup]="checkoutForm">
+          <div formGroupName="contactInfo" class="contact-form">
+            <h3 class="form-section-title">Información de contacto</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre completo</mat-label>
+                <input matInput formControlName="name" placeholder="Nombre y apellidos">
+                <mat-error *ngIf="checkoutForm.get('contactInfo.name')?.hasError('required')">
+                  El nombre es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput formControlName="email" placeholder="correo@ejemplo.com">
+                <mat-error *ngIf="checkoutForm.get('contactInfo.email')?.hasError('required')">
+                  El correo es requerido
+                </mat-error>
+                <mat-error *ngIf="checkoutForm.get('contactInfo.email')?.hasError('email')">
+                  Ingrese un correo válido
+                </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Teléfono</mat-label>
+                <input matInput formControlName="phone" placeholder="999999999">
+                <mat-error *ngIf="checkoutForm.get('contactInfo.phone')?.hasError('required')">
+                  El teléfono es requerido
+                </mat-error>
+                <mat-error *ngIf="checkoutForm.get('contactInfo.phone')?.hasError('pattern')">
+                  Ingrese un número válido de 9 dígitos
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button mat-button matStepperPrevious class="back-btn">Volver</button>
+            <button mat-button matStepperNext class="next-btn">Continuar</button>
+          </div>
+        </form>
+      </mat-step>
+      
+      <!-- Paso 3: Pago -->
+      <mat-step [stepControl]="checkoutForm.get('paymentInfo')!">
+        <ng-template matStepLabel>Pago</ng-template>
+        <form [formGroup]="checkoutForm">
+          <div formGroupName="paymentInfo" class="payment-form">
+            <h3 class="form-section-title">Información de pago</h3>
+            
+            <div class="payment-methods">
+              <h4 class="payment-methods-title">Selecciona un método de pago</h4>
+              <div class="payment-method-options">
+                <div class="payment-method-option">
+                  <mat-button-toggle-group formControlName="cardType">
+                    <mat-button-toggle value="visa">
+                      <mat-icon svgIcon="visa"></mat-icon> Visa
+                    </mat-button-toggle>
+                    <mat-button-toggle value="mastercard">
+                      <mat-icon>credit_card</mat-icon> Mastercard
+                    </mat-button-toggle>
+                    <mat-button-toggle value="amex">
+                      <mat-icon>credit_card</mat-icon> American Express
+                    </mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-details">
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre en la tarjeta</mat-label>
+                  <input matInput formControlName="cardName" placeholder="Nombre como aparece en la tarjeta">
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardName')?.hasError('required')">
+                    El nombre es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Número de tarjeta</mat-label>
+                  <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456">
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardNumber')?.hasError('required')">
+                    El número de tarjeta es requerido
+                  </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardNumber')?.hasError('pattern')">
+                    Ingrese un número de tarjeta válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de vencimiento</mat-label>
+                  <input matInput formControlName="cardExpiry" placeholder="MM/YY">
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardExpiry')?.hasError('required')">
+                    La fecha es requerida
+                  </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardExpiry')?.hasError('pattern')">
+                    Formato inválido (MM/YY)
+                  </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                  <mat-label>CVV</mat-label>
+                  <input matInput formControlName="cardCvv" type="password" placeholder="123">
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardCvv')?.hasError('required')">
+                    El CVV es requerido
+                  </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('paymentInfo.cardCvv')?.hasError('pattern')">
+                    Ingrese un CVV válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button mat-button matStepperPrevious class="back-btn">Volver</button>
+            <button mat-button (click)="onComplete()" class="confirm-btn">Confirmar pago</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

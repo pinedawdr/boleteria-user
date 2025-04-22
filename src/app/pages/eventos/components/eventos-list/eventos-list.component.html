@@ -1,0 +1,131 @@
+<div class="eventos-filtros-container">
+  <div class="eventos-container">
+    <!-- Filtros y Ordenamiento -->
+    <div class="filtros-container">
+      <div class="filtros-header">
+        <h1>Eventos</h1>
+        <div class="filtros-acciones">
+          <button mat-button class="filtro-button" [matMenuTriggerFor]="categoriaMenu">
+            <mat-icon>filter_list</mat-icon>
+            Categoría
+          </button>
+          <mat-menu #categoriaMenu="matMenu">
+            <button mat-menu-item (click)="filtrarPorCategoria(null)">
+              Todas las categorías
+            </button>
+            <button mat-menu-item *ngFor="let cat of categorias" (click)="filtrarPorCategoria(cat.id)">
+              {{cat.nombre}}
+            </button>
+          </mat-menu>
+
+          <button mat-button class="filtro-button" [matMenuTriggerFor]="fechaMenu">
+            <mat-icon>event</mat-icon>
+            Fecha
+          </button>
+          <mat-menu #fechaMenu="matMenu">
+            <button mat-menu-item (click)="filtrarPorFecha('todas')">
+              Todas las fechas
+            </button>
+            <button mat-menu-item (click)="filtrarPorFecha('hoy')">
+              Hoy
+            </button>
+            <button mat-menu-item (click)="filtrarPorFecha('esta-semana')">
+              Esta semana
+            </button>
+            <button mat-menu-item (click)="filtrarPorFecha('este-mes')">
+              Este mes
+            </button>
+          </mat-menu>
+
+          <button mat-button class="filtro-button" [matMenuTriggerFor]="ordenMenu">
+            <mat-icon>sort</mat-icon>
+            Ordenar
+          </button>
+          <mat-menu #ordenMenu="matMenu">
+            <button mat-menu-item (click)="ordenar('fecha_asc')">
+              Fecha: Más cercanos primero
+            </button>
+            <button mat-menu-item (click)="ordenar('fecha_desc')">
+              Fecha: Más lejanos primero
+            </button>
+            <button mat-menu-item (click)="ordenar('precio_asc')">
+              Precio: Menor a mayor
+            </button>
+            <button mat-menu-item (click)="ordenar('precio_desc')">
+              Precio: Mayor a menor
+            </button>
+            <button mat-menu-item (click)="ordenar('nombre_asc')">
+              Nombre: A-Z
+            </button>
+            <button mat-menu-item (click)="ordenar('nombre_desc')">
+              Nombre: Z-A
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="filtros-activos" *ngIf="categoriaSeleccionada || fechaSeleccionada">
+        <div class="filtro-activo" *ngIf="categoriaSeleccionada">
+          <span>Categoría: {{ getCategoryName(categoriaSeleccionada) }}</span>
+          <button mat-icon-button (click)="filtrarPorCategoria(null)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="filtro-activo" *ngIf="fechaSeleccionada">
+          <span>Fecha: {{ getFechaLabel(fechaSeleccionada) }}</span>
+          <button mat-icon-button (click)="filtrarPorFecha('todas')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <span>Cargando eventos...</span>
+      </div>
+    </div>
+
+    <!-- No hay eventos -->
+    <div *ngIf="!loading && eventosFiltrados.length === 0" class="no-eventos">
+      <mat-icon>event_busy</mat-icon>
+      <h2>No se encontraron eventos</h2>
+      <p>Intenta con otros filtros o vuelve más tarde</p>
+      <button mat-raised-button color="primary" (click)="resetFiltros()">Limpiar filtros</button>
+    </div>
+
+    <!-- Lista de eventos -->
+    <div *ngIf="!loading && eventosFiltrados.length > 0" class="eventos-list">
+      <div class="evento-card" *ngFor="let evento of eventosFiltrados" (click)="verEvento(evento.id)">
+        <div class="evento-imagen">
+          <img [src]="evento.imagen || evento.imagen_url || 'assets/images/event-placeholder.jpg'" [alt]="evento.nombre">
+          <div class="evento-categoria">
+            {{ getCategoryName(evento.categoriaId || evento.categoria_id) }}
+          </div>
+        </div>
+        <div class="evento-info">
+          <h2 class="evento-titulo">{{ evento.nombre }}</h2>
+          <div class="evento-detalles">
+            <div class="evento-fecha">
+              <mat-icon>event</mat-icon>
+              <span>{{ evento.fecha | date:'fullDate':'':'es' }}</span>
+            </div>
+            <div class="evento-ubicacion">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ evento.ubicacion }}</span>
+            </div>
+            <div class="evento-precio">
+              <mat-icon>attach_money</mat-icon>
+              <span>S/ {{ evento.precio | number }}</span>
+            </div>
+          </div>
+          <div class="evento-acciones">
+            <button mat-flat-button color="primary">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

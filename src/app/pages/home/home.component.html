@@ -1,0 +1,283 @@
+<div class="home-container">
+  <!-- Hero Banner con Animación Sutil -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">Encuentra los mejores eventos y viajes en un solo lugar</h1>
+        <p class="hero-subtitle">Reserva tus boletos para conciertos, teatro, deportes y transporte en todo Perú</p>
+        <div class="hero-actions">
+          <a routerLink="/eventos" class="hero-btn primary">Explorar eventos</a>
+          <a routerLink="/transporte/rutas" class="hero-btn secondary">Reservar transporte</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-circles">
+          <div class="circle circle-1"></div>
+          <div class="circle circle-2"></div>
+          <div class="circle circle-3"></div>
+        </div>
+        <div class="hero-cards">
+          <div class="floating-card card-1">
+            <mat-icon>event</mat-icon>
+            <span>Eventos</span>
+          </div>
+          <div class="floating-card card-2">
+            <mat-icon>directions_bus</mat-icon>
+            <span>Transporte</span>
+          </div>
+          <div class="floating-card card-3">
+            <mat-icon>confirmation_number</mat-icon>
+            <span>Boletos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+        <path fill="currentColor" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Categorías de Eventos -->
+  <section class="section categories-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Categorías de Eventos</h2>
+        <p class="section-subtitle">Encuentra el evento perfecto para ti</p>
+      </div>
+      
+      <div class="categories-grid">
+        <a *ngFor="let category of eventCategories" [routerLink]="['/eventos']" [queryParams]="{category: category.id}" class="category-card">
+          <div class="category-icon">
+            <mat-icon>{{category.icon}}</mat-icon>
+          </div>
+          <h3 class="category-title">{{category.name}}</h3>
+          <span class="category-arrow">
+            <mat-icon>arrow_forward</mat-icon>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Eventos Destacados -->
+  <section class="section featured-events-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Eventos Destacados</h2>
+        <p class="section-subtitle">Los eventos más populares que no te puedes perder</p>
+        <a routerLink="/eventos" class="view-all-link">
+          Ver todos los eventos <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+      
+      <div *ngIf="loadingEvents" class="loading-container">
+        <div class="shimmer-card" *ngFor="let i of [1,2,3,4]"></div>
+      </div>
+      
+      <div *ngIf="!loadingEvents && featuredEvents.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">event_busy</mat-icon>
+        <p>No hay eventos destacados disponibles en este momento.</p>
+        <a routerLink="/eventos" mat-raised-button color="primary">Buscar eventos</a>
+      </div>
+      
+      <div *ngIf="!loadingEvents && featuredEvents.length > 0" class="events-grid">
+        <div *ngFor="let event of featuredEvents" class="event-card" (click)="navigateToEvent(event.id)">
+          <div class="card-image-container">
+            <img [src]="event.imagen_url || '/assets/images/event-placeholder.jpg'" [alt]="event.nombre" class="card-image">
+            <div class="card-badge">Destacado</div>
+          </div>
+          <div class="card-content">
+            <div class="card-date">
+              <span class="day">{{getDay(event.fecha)}}</span>
+              <span class="month">{{getMonth(event.fecha)}}</span>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">{{event.nombre}}</h3>
+              <p class="card-location">
+                <mat-icon>location_on</mat-icon>
+                <span>{{event.ubicacion || 'Ubicación por confirmar'}}</span>
+              </p>
+              <p class="card-price">
+                <mat-icon>attach_money</mat-icon>
+                <span>Desde S/ {{event.precio || 0}}</span>
+              </p>
+            </div>
+            <button mat-flat-button color="primary" class="card-button">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Banner Promocional -->
+  <section class="promo-section">
+    <div class="container">
+      <div class="promo-content">
+        <h2 class="promo-title">¡Descuento especial!</h2>
+        <p class="promo-text">Obtén un 15% de descuento en tu primera compra de boletos con el código: <span class="promo-code">BIENVENIDO15</span></p>
+        <a routerLink="/eventos" class="promo-btn">Comprar ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tipos de Transporte -->
+  <section class="section transport-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tipos de Transporte</h2>
+        <p class="section-subtitle">Viaja a tu destino con comodidad y seguridad</p>
+      </div>
+      
+      <div class="transport-grid">
+        <a *ngFor="let type of transportTypes" [routerLink]="['/transporte/rutas']" [queryParams]="{tipo: type.id}" class="transport-card">
+          <div class="transport-icon">
+            <mat-icon>{{type.icon}}</mat-icon>
+          </div>
+          <div class="transport-info">
+            <h3 class="transport-title">{{type.name}}</h3>
+            <p class="transport-desc">{{type.description}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rutas Destacadas -->
+  <section class="section featured-routes-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Rutas Destacadas</h2>
+        <p class="section-subtitle">Las rutas más populares con los mejores precios</p>
+        <a routerLink="/transporte/rutas" class="view-all-link">
+          Ver todas las rutas <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+      
+      <div *ngIf="loadingRoutes" class="loading-container">
+        <div class="shimmer-card" *ngFor="let i of [1,2,3,4]"></div>
+      </div>
+      
+      <div *ngIf="!loadingRoutes && featuredRoutes.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">directions_bus</mat-icon>
+        <p>No hay rutas destacadas disponibles en este momento.</p>
+        <a routerLink="/transporte/rutas" mat-raised-button color="primary">Buscar rutas</a>
+      </div>
+      
+      <div *ngIf="!loadingRoutes && featuredRoutes.length > 0" class="routes-grid">
+        <div *ngFor="let route of featuredRoutes" class="route-card" (click)="navigateToRoute(route.id)">
+          <div class="route-header">
+            <div class="route-company">
+              <img *ngIf="route.empresa?.logo" 
+                  [src]="route.empresa?.logo || ''" 
+                  [alt]="route.empresa?.nombre || 'Logo de empresa'" 
+                  class="company-logo">
+              <span *ngIf="!route.empresa?.logo" class="company-name">{{route.empresa?.nombre || 'Transportista'}}</span>
+            </div>
+            <div class="route-type">
+              <mat-icon>{{getTransportIcon(route.tipo_transporte)}}</mat-icon>
+              <span>{{getTransportLabel(route.tipo_transporte)}}</span>
+            </div>
+          </div>
+          <div class="route-content">
+            <div class="route-cities">
+              <div class="route-origin">
+                <div class="city-dot origin-dot"></div>
+                <span class="city-name">{{route.origen}}</span>
+              </div>
+              <div class="route-path">
+                <div class="path-line"></div>
+                <div class="path-duration">{{route.duracion}} hrs</div>
+              </div>
+              <div class="route-destination">
+                <div class="city-dot destination-dot"></div>
+                <span class="city-name">{{route.destino}}</span>
+              </div>
+            </div>
+            <div class="route-details">
+              <div class="route-schedule">
+                <mat-icon>access_time</mat-icon>
+                <span>{{route.hora_salida || '08:00'}} - {{route.hora_llegada || '14:00'}}</span>
+              </div>
+              <div class="route-price">
+                <span class="price-label">Desde</span>
+                <span class="price-value">S/ {{route.precio}}</span>
+              </div>
+            </div>
+          </div>
+          <button mat-flat-button color="primary" class="route-button">Reservar asientos</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="section testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <p class="section-subtitle">Miles de usuarios confían en nosotros para sus boletos y viajes</p>
+      </div>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <mat-icon *ngFor="let i of [1,2,3,4,5]">star</mat-icon>
+          </div>
+          <p class="testimonial-text">"Excelente servicio. Compré boletos para un concierto y todo fue muy sencillo. La app es intuitiva y rápida."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MP</div>
+            <div class="author-info">
+              <h4 class="author-name">María Pérez</h4>
+              <p class="author-location">Lima</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <mat-icon *ngFor="let i of [1,2,3,4,5]">star</mat-icon>
+          </div>
+          <p class="testimonial-text">"He usado la plataforma para comprar boletos de bus varias veces. El proceso es rápido y los precios son muy buenos."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">JR</div>
+            <div class="author-info">
+              <h4 class="author-name">Juan Rodríguez</h4>
+              <p class="author-location">Arequipa</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <mat-icon *ngFor="let i of [1,2,3,4]">star</mat-icon>
+            <mat-icon>star_border</mat-icon>
+          </div>
+          <p class="testimonial-text">"Gran variedad de eventos y opciones de transporte. Recomendado para quienes viajan frecuentemente."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">CT</div>
+            <div class="author-info">
+              <h4 class="author-name">Carlos Torres</h4>
+              <p class="author-location">Trujillo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">¿Listo para tu próxima aventura?</h2>
+        <p class="cta-text">No esperes más para conseguir los mejores boletos para eventos y viajes en todo Perú.</p>
+        <div class="cta-actions">
+          <a routerLink="/eventos" class="cta-btn primary">Explorar eventos</a>
+          <a routerLink="/transporte/rutas" class="cta-btn secondary">Reservar transporte</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

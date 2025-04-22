@@ -1,0 +1,218 @@
+// Mixins.scss - Efectos visuales y utilidades
+@import 'variables';
+
+// Efecto hover para tarjetas
+@mixin card-hover {
+  transition: transform $transition-base, box-shadow $transition-base;
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba($dark-bg, 0.2), 0 0 15px rgba($primary-color, 0.3);
+  }
+}
+
+// Texto con gradiente
+@mixin gradient-text {
+  background: $gradient-violet;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+// Efecto glass-morphism
+@mixin glass-effect($opacity: 0.1, $blur: 10px) {
+  background: rgba(30, 30, 46, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+// Borde con efecto neón
+@mixin neon-border {
+  border: 1px solid rgba($primary-color, 0.3);
+  box-shadow: 0 0 10px rgba($primary-color, 0.2);
+  border-radius: $border-radius-md;
+}
+
+// Botón estilo roark.ai
+@mixin button-primary {
+  background: $gradient-violet;
+  color: $light-bg;
+  font-weight: 600;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-lg;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md, 0 0 15px rgba($primary-color, 0.4);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Botón secundario
+@mixin button-secondary {
+  background: transparent;
+  color: $primary-color;
+  font-weight: 600;
+  border: 1px solid rgba($primary-color, 0.3);
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-lg;
+  transition: all $transition-fast;
+  cursor: pointer;
+  
+  &:hover {
+    background: rgba($primary-color, 0.1);
+    border-color: $primary-color;
+  }
+}
+
+// Animación de fade-in
+@mixin fade-in($duration: 0.3s, $delay: 0s) {
+  animation: fadeIn $duration ease $delay forwards;
+  opacity: 0;
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Flex centrado
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Grid responsive
+@mixin grid-responsive($columns: 1, $gap: $spacing-md) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat(1, 1fr);
+  
+  @media (min-width: $breakpoint-sm) {
+    grid-template-columns: repeat(min(2, $columns), 1fr);
+  }
+  
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(min(3, $columns), 1fr);
+  }
+  
+  @media (min-width: $breakpoint-lg) {
+    grid-template-columns: repeat($columns, 1fr);
+  }
+}
+
+// Container responsivo
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @media (min-width: $breakpoint-lg) {
+    padding: 0 $spacing-xl;
+  }
+}
+
+// Texto truncado
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Scroll estilizado
+@mixin styled-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba($dark-bg-secondary, 0.5);
+    border-radius: $border-radius-full;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba($primary-color, 0.5);
+    border-radius: $border-radius-full;
+    
+    &:hover {
+      background: $primary-color;
+    }
+  }
+}
+
+// Degradado violeta
+@mixin violet-gradient($direction: to right) {
+  background: linear-gradient($direction, $color-violet-primary, $color-violet-secondary);
+}
+
+// Botón moderno con degradado
+@mixin gradient-button {
+  @include violet-gradient();
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all $transition-normal;
+  cursor: pointer;
+  box-shadow: $shadow-sm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+}
+
+// Tarjeta con borde sutil
+@mixin modern-card {
+  background-color: $color-dark-gray;
+  border-radius: $border-radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform $transition-normal, box-shadow $transition-normal;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// Texto con sombra sutil
+@mixin text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

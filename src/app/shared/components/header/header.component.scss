@@ -1,0 +1,180 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.main-header {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    img {
+      height: 32px;
+    }
+  }
+  
+  .main-nav {
+    margin-left: 32px;
+    display: flex;
+    gap: 16px;
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease;
+      padding: 6px 8px;
+      border-radius: 4px;
+      
+      &:hover {
+        color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      &.active {
+        color: #7b1fa2;
+        background-color: rgba(123, 31, 162, 0.1);
+      }
+    }
+  }
+  
+  .search-box {
+    margin-right: 16px;
+    
+    .search-field {
+      width: 240px;
+      font-size: 14px;
+      
+      ::ng-deep {
+        .mat-mdc-form-field-flex {
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 24px;
+          height: 36px;
+          padding: 0 12px;
+        }
+        
+        .mat-mdc-form-field-infix {
+          padding: 8px 0;
+        }
+        
+        .mat-mdc-form-field-subscript-wrapper {
+          display: none;
+        }
+        
+        .mat-mdc-text-field-wrapper {
+          background-color: transparent;
+          padding: 0;
+        }
+        
+        .mat-mdc-form-field-icon-prefix, 
+        .mat-mdc-form-field-icon-suffix {
+          color: rgba(255, 255, 255, 0.7);
+        }
+        
+        input.mat-mdc-input-element {
+          color: white;
+          
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+        
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: transparent !important;
+        }
+      }
+    }
+  }
+  
+  .auth-buttons, .user-menu {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    
+    .login-btn {
+      color: white;
+    }
+    
+    .register-btn {
+      background-color: #7b1fa2;
+      color: white;
+      
+      &:hover {
+        background-color: #9c27b0;
+      }
+    }
+    
+    .user-button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: white;
+    }
+  }
+}
+
+// Estilo para el menú desplegable de usuario
+::ng-deep {
+  .user-dropdown {
+    .mat-mdc-menu-content {
+      padding: 8px 0;
+    }
+    
+    .mat-mdc-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      min-height: 40px;
+      
+      .mat-icon {
+        margin-right: 4px;
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .main-header {
+    .main-nav {
+      display: none; // Ocultar navegación en móviles
+    }
+    
+    .search-box {
+      .search-field {
+        width: 180px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .main-header {
+    .search-box {
+      display: none; // Ocultar búsqueda en pantallas muy pequeñas
+    }
+  }
+}

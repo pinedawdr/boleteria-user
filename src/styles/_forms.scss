@@ -1,0 +1,230 @@
+@import 'variables';
+@import 'mixins';
+
+// Estilos consistentes para formularios en toda la aplicación
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  label {
+    display: block;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xs;
+    color: $text-secondary;
+    font-weight: 500;
+  }
+  
+  input, 
+  select, 
+  textarea {
+    width: 100%;
+    background-color: rgba($dark-bg, 0.5);
+    border: 1px solid rgba($text-tertiary, 0.2);
+    border-radius: $border-radius-md;
+    padding: $spacing-sm $spacing-md;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    transition: all $transition-base;
+    height: 44px;
+    
+    &:focus {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+      outline: none;
+      background-color: rgba($dark-bg, 0.8);
+    }
+    
+    &::placeholder {
+      color: rgba($text-tertiary, 0.7);
+    }
+
+    &.is-invalid {
+      border-color: $error;
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($error, 0.2);
+      }
+    }
+  }
+  
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 36px;
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .error-message {
+    color: $error;
+    font-size: $font-size-xs;
+    margin-top: $spacing-xs;
+  }
+}
+
+// Checkbox personalizado
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-xs;
+  
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid rgba($text-tertiary, 0.5);
+    border-radius: 4px;
+    background-color: rgba($dark-bg, 0.5);
+    transition: all $transition-base;
+    position: relative;
+    
+    &:checked {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+    
+    &:focus {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+      outline: none;
+    }
+  }
+  
+  label {
+    margin-bottom: 0;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    cursor: pointer;
+    
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Botones de formulario
+.filter-btn, 
+.auth-btn,
+.form-btn-primary,
+.cta-button {
+  @include button-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-lg;
+  font-weight: 600;
+  height: 44px;
+  transition: all $transition-base, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  i, mat-icon {
+    font-size: 1.1em;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.form-btn-secondary {
+  @include button-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-lg;
+  font-weight: 500;
+  height: 44px;
+  
+  i, mat-icon {
+    font-size: 1.1em;
+  }
+}
+
+// Estilo para input de búsqueda
+.search-input-container {
+  position: relative;
+  
+  .search-input {
+    padding-left: 40px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-tertiary;
+    font-size: 18px;
+  }
+}
+
+// Formularios en línea para filtros
+.filter-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: $spacing-md;
+    
+    .filter-btn {
+      flex: 1;
+    }
+    
+    .filter-reset {
+      color: $text-tertiary;
+      background: transparent;
+      border: none;
+      font-size: $font-size-sm;
+      cursor: pointer;
+      transition: color $transition-base;
+      
+      &:hover {
+        color: $text-secondary;
+      }
+    }
+  }
+}

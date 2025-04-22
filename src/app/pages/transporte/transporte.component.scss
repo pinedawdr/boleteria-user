@@ -1,0 +1,382 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.transport-search {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transport-type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  
+  .tab-btn {
+    background-color: rgba($dark-bg-secondary, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: $text-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    i {
+      font-size: 1.2em;
+    }
+    
+    &:hover {
+      background-color: rgba($accent-blue, 0.1);
+      color: $text-primary;
+      transform: translateY(-2px);
+    }
+    
+    &.active {
+      background-color: rgba($accent-blue, 0.2);
+      color: $accent-blue;
+      border-color: rgba($accent-blue, 0.3);
+    }
+  }
+}
+
+// Nuevos estilos para pestañas de tipos de rutas
+.route-type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  
+  .route-tab-btn {
+    background-color: rgba($dark-bg-secondary, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: $text-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition-base;
+    
+    &:hover {
+      background-color: rgba($accent-blue, 0.1);
+      color: $text-primary;
+      transform: translateY(-2px);
+    }
+    
+    &.active {
+      background-color: rgba($accent-blue, 0.2);
+      color: $accent-blue;
+      border-color: rgba($accent-blue, 0.3);
+    }
+  }
+}
+
+.results-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-sm;
+  }
+  
+  .route-summary {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-md;
+    font-weight: 600;
+    color: $text-primary;
+    
+    i {
+      color: $accent-blue;
+      font-size: 0.9em;
+    }
+  }
+  
+  .results-count {
+    font-size: $font-size-sm;
+    color: $text-tertiary;
+  }
+}
+
+.transport-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+}
+
+.transport-item {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Estilos específicos para la tarjeta de transporte
+.transport-card {
+  background: $dark-bg-secondary;
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  transition: all $transition-base;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba($accent-blue, 0.15);
+    border-color: rgba($accent-blue, 0.3);
+  }
+  
+  .transport-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing-md;
+    
+    .transport-company {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      
+      .company-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: $border-radius-md;
+        object-fit: contain;
+      }
+      
+      .company-name {
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+    
+    .transport-details {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+      align-items: flex-end;
+      
+      .transport-type {
+        font-size: $font-size-xs;
+        font-weight: 600;
+        color: $accent-blue;
+        background-color: rgba($accent-blue, 0.1);
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-full;
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        height: fit-content;
+        
+        i {
+          font-size: 1em;
+        }
+      }
+      
+      .route-type-badge {
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        background-color: rgba($text-tertiary, 0.1);
+        padding: 2px $spacing-xs;
+        border-radius: $border-radius-full;
+      }
+    }
+  }
+  
+  .transport-route {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-md;
+    position: relative;
+    
+    .route-line {
+      position: absolute;
+      left: 65px;
+      top: 15px;
+      bottom: 15px;
+      width: 2px;
+      background-color: rgba($text-tertiary, 0.3);
+      z-index: 0;
+    }
+    
+    .route-stops {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-md;
+      flex: 1;
+    }
+    
+    .route-stop {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      
+      .stop-time {
+        font-size: $font-size-sm;
+        font-weight: 700;
+        color: $text-primary;
+        min-width: 50px;
+      }
+      
+      .stop-icon {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        
+        &.origin {
+          background-color: $primary-color;
+        }
+        
+        &.destination {
+          background-color: $accent-blue;
+        }
+      }
+      
+      .stop-city {
+        font-size: $font-size-sm;
+        color: $text-secondary;
+      }
+    }
+  }
+  
+  .transport-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+      
+      .info-label {
+        font-size: $font-size-xs;
+        color: $text-tertiary;
+      }
+      
+      .info-value {
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+  }
+  
+  .transport-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .transport-price {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .price-label {
+      font-size: $font-size-xs;
+      color: $text-tertiary;
+    }
+    
+    .price-value {
+      font-size: $font-size-md;
+      font-weight: 700;
+      color: $accent-teal;
+    }
+    
+    .transport-btn {
+      background: $gradient-blue;
+      color: white;
+      font-size: $font-size-xs;
+      font-weight: 600;
+      padding: $spacing-xs $spacing-md;
+      border: none;
+      border-radius: $border-radius-md;
+      cursor: pointer;
+      transition: all $transition-base;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba($accent-blue, 0.4);
+      }
+    }
+  }
+}
+
+// Animación para las pastillas de filtro
+.category-pill {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Estilo consistente con el home para los botones de paginación
+.pagination {
+  .page-item {
+    transition: all $transition-base;
+    
+    &:hover:not(.disabled) {
+      background-color: rgba($accent-blue, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    &.active {
+      background-color: $accent-blue;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba($accent-blue, 0.3);
+    }
+  }
+}

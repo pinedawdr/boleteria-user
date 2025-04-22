@@ -1,0 +1,166 @@
+// Dark Theme - Tema oscuro predeterminado
+@use '@angular/material' as mat;
+@import '../variables';
+
+// Crear paletas personalizadas para Angular Material
+$boleteria-primary-palette: (
+  50: lighten($primary-light, 15%),
+  100: lighten($primary-light, 10%),
+  200: lighten($primary-light, 5%),
+  300: $primary-light,
+  400: lighten($primary-color, 5%),
+  500: $primary-color,
+  600: darken($primary-color, 5%),
+  700: $primary-dark,
+  800: darken($primary-dark, 5%),
+  900: darken($primary-dark, 10%),
+  contrast: (
+    50: $dark-bg,
+    100: $dark-bg,
+    200: $dark-bg,
+    300: $dark-bg,
+    400: $light-bg,
+    500: $light-bg,
+    600: $light-bg,
+    700: $light-bg,
+    800: $light-bg,
+    900: $light-bg,
+  )
+);
+
+$boleteria-accent-palette: (
+  50: lighten($accent-blue, 40%),
+  100: lighten($accent-blue, 30%),
+  200: lighten($accent-blue, 20%),
+  300: lighten($accent-blue, 10%),
+  400: $accent-blue,
+  500: darken($accent-blue, 5%),
+  600: darken($accent-blue, 10%),
+  700: darken($accent-blue, 15%),
+  800: darken($accent-blue, 20%),
+  900: darken($accent-blue, 25%),
+  contrast: (
+    50: $dark-bg,
+    100: $dark-bg,
+    200: $dark-bg,
+    300: $dark-bg,
+    400: $light-bg,
+    500: $light-bg,
+    600: $light-bg,
+    700: $light-bg,
+    800: $light-bg,
+    900: $light-bg,
+  )
+);
+
+$boleteria-warn-palette: (
+  50: lighten($error, 40%),
+  100: lighten($error, 30%),
+  200: lighten($error, 20%),
+  300: lighten($error, 10%),
+  400: $error,
+  500: darken($error, 5%),
+  600: darken($error, 10%),
+  700: darken($error, 15%),
+  800: darken($error, 20%),
+  900: darken($error, 25%),
+  contrast: (
+    50: $dark-bg,
+    100: $dark-bg,
+    200: $dark-bg,
+    300: $dark-bg,
+    400: $light-bg,
+    500: $light-bg,
+    600: $light-bg,
+    700: $light-bg,
+    800: $light-bg,
+    900: $light-bg,
+  )
+);
+
+// Definir las paletas principales
+$boleteria-primary: mat.define-palette($boleteria-primary-palette);
+$boleteria-accent: mat.define-palette($boleteria-accent-palette);
+$boleteria-warn: mat.define-palette($boleteria-warn-palette);
+
+// Configurar tipografía personalizada
+$boleteria-typography: mat.define-typography-config(
+  $font-family: $font-family-primary,
+  $headline-1: mat.define-typography-level($font-size-4xl, 1.1, 700),
+  $headline-2: mat.define-typography-level($font-size-3xl, 1.1, 700),
+  $headline-3: mat.define-typography-level($font-size-2xl, 1.2, 600),
+  $headline-4: mat.define-typography-level($font-size-xl, 1.2, 600),
+  $headline-5: mat.define-typography-level($font-size-lg, 1.2, 500),
+  $headline-6: mat.define-typography-level($font-size-md, 1.2, 500),
+  $subtitle-1: mat.define-typography-level($font-size-base, 1.5, 400),
+  $subtitle-2: mat.define-typography-level($font-size-sm, 1.4, 500),
+  $body-1: mat.define-typography-level($font-size-base, 1.5, 400),
+  $body-2: mat.define-typography-level($font-size-sm, 1.4, 400),
+  $caption: mat.define-typography-level($font-size-xs, 1.2, 400),
+  $button: mat.define-typography-level($font-size-sm, 1.2, 500),
+);
+
+// Crear el tema oscuro
+$boleteria-theme: mat.define-dark-theme((
+  color: (
+    primary: $boleteria-primary,
+    accent: $boleteria-accent,
+    warn: $boleteria-warn,
+  ),
+  typography: $boleteria-typography,
+  density: 0,
+));
+
+// Aplicar el tema oscuro a todos los componentes
+@include mat.all-component-themes($boleteria-theme);
+
+// Clases adicionales específicas del tema oscuro
+.dark-theme {
+  color-scheme: dark;
+  
+  // Variables CSS personalizadas para el tema
+  --background-primary: #{$dark-bg};
+  --background-secondary: #{$dark-bg-secondary};
+  --text-primary: #{$light-bg};
+  --text-secondary: #{$gray-300};
+  --border-color: #{rgba($gray-400, 0.2)};
+
+  // Material overrides
+  .mat-mdc-card {
+    background-color: $dark-bg-secondary;
+  }
+  
+  .mat-mdc-toolbar {
+    background-color: $dark-bg;
+  }
+  
+  .mat-drawer {
+    background-color: $dark-bg-secondary;
+  }
+  
+  // Colores de botones y componentes interactivos
+  .mat-mdc-raised-button.mat-primary {
+    background: $gradient-violet;
+  }
+  
+  .mat-mdc-menu-panel {
+    background-color: $dark-bg-secondary;
+  }
+  
+  .mat-mdc-menu-item {
+    color: $text-primary;
+    
+    .mat-icon {
+      color: $text-secondary;
+    }
+  }
+  
+  .mat-mdc-select-panel {
+    background-color: $dark-bg-secondary;
+  }
+  
+  // Fondos de diálogos
+  .mat-mdc-dialog-container {
+    background-color: $dark-bg-secondary;
+  }
+}

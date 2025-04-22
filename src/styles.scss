@@ -1,0 +1,104 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+@import 'styles/global';
+@import 'styles/components'; // Agregamos la importación de componentes reutilizables
+@import 'styles/_forms'; // Importar el nuevo archivo de formularios
+@import 'styles/themes/dark-theme';
+
+// Aplicación del tema Angular Material
+@include mat-core();
+
+// Estilos globales adicionales
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: $font-family-primary;
+}
+
+body {
+  background: linear-gradient(135deg, #000000 70%, #2a1a4a 130%); // Fondo negro con degradado sutil violeta al 30%
+  color: $text-primary;
+}
+
+// Asegurar que las aplicaciones se muestren correctamente
+.app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+// Material design overrides
+.mat-mdc-button-base {
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #{$success};
+    --mat-mdc-snack-bar-button-color: #{$light-bg};
+    --mdc-snackbar-supporting-text-color: #{$light-bg};
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #{$error};
+    --mat-mdc-snack-bar-button-color: #{$light-bg};
+    --mdc-snackbar-supporting-text-color: #{$light-bg};
+  }
+}
+
+// Mejorar la experiencia de drag and drop para Angular CDK
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-lg;
+  opacity: 0.8;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.4;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+// Sobrescribir estilos de formularios para que sean consistentes
+input, select, textarea {
+  width: 100%;
+  background-color: rgba($dark-bg, 0.5);
+  border: 1px solid rgba($text-tertiary, 0.2);
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  transition: all $transition-base;
+  
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: rgba($text-tertiary, 0.7);
+  }
+}
+
+// Asegurar que los componentes de página se ven correctamente
+.page-container {
+  padding: $spacing-xl 0;
+  
+  .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-xl;
+    
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

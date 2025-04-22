@@ -1,0 +1,74 @@
+<div class="auth-container">
+  <div class="auth-form">
+    <h1 class="form-title">Iniciar sesión</h1>
+    <p class="form-subtitle">Ingresa tus datos para acceder a tu cuenta</p>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="modern-input-container">
+        <mat-icon class="input-icon">email</mat-icon>
+        <div class="input-wrapper">
+          <input type="email" formControlName="email" class="modern-input" placeholder="Correo electrónico">
+          <div class="input-line"></div>
+          <div *ngIf="submitted && f['email'].errors" class="error-message">
+            <span *ngIf="f['email'].errors['required']">El correo es requerido</span>
+            <span *ngIf="f['email'].errors['email']">Ingrese un correo válido</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modern-input-container">
+        <mat-icon class="input-icon">lock</mat-icon>
+        <div class="input-wrapper">
+          <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" class="modern-input" placeholder="Contraseña">
+          <button type="button" class="toggle-visibility" (click)="togglePasswordVisibility()">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <div class="input-line"></div>
+          <div *ngIf="submitted && f['password'].errors" class="error-message">
+            <span *ngIf="f['password'].errors['required']">La contraseña es requerida</span>
+            <span *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 6 caracteres</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-checkbox">
+        <div class="checkbox-container">
+          <mat-checkbox formControlName="rememberMe" color="primary">Recordarme</mat-checkbox>
+        </div>
+        <a routerLink="/auth/recuperar" class="forgot-password">¿Olvidaste tu contraseña?</a>
+      </div>
+      
+      <div class="action-container">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          class="primary-btn" 
+          type="submit" 
+          [disabled]="loading">
+          <mat-spinner *ngIf="loading" diameter="20" class="button-spinner"></mat-spinner>
+          <span *ngIf="!loading">Iniciar sesión</span>
+        </button>
+      </div>
+    </form>
+    
+    <div class="separator">
+      <span>o continúa con</span>
+    </div>
+    
+    <div class="social-buttons">
+      <button mat-stroked-button (click)="loginWithSocial('google')" class="social-btn google">
+        <mat-icon class="google-icon">public</mat-icon>
+        Google
+      </button>
+      <button mat-stroked-button (click)="loginWithSocial('facebook')" class="social-btn facebook">
+        <mat-icon class="facebook-icon">facebook</mat-icon>
+        Facebook
+      </button>
+    </div>
+    
+    <div class="bottom-text">
+      <span>¿Aún no tienes cuenta?</span>
+      <a routerLink="/auth/registro">Regístrate aquí</a>
+    </div>
+  </div>
+</div>

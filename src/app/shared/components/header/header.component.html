@@ -1,0 +1,83 @@
+<header class="main-header">
+  <div class="container">
+    <div class="header-left">
+      <!-- Logo y navegación -->
+      <a class="logo" routerLink="/">
+        <img src="assets/images/logo.svg" alt="Logo">
+      </a>
+      
+      <nav class="main-nav">
+        <!-- Links de navegación pública -->
+        <a routerLink="/eventos" class="nav-link" routerLinkActive="active">Eventos</a>
+        <a routerLink="/promociones" class="nav-link" routerLinkActive="active">Promociones</a>
+        <!-- Otros enlaces públicos -->
+      </nav>
+    </div>
+    
+    <div class="header-right">
+      <!-- Búsqueda funcional -->
+      <div class="search-box">
+        <form (ngSubmit)="search()">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input 
+              matInput 
+              type="text" 
+              [(ngModel)]="searchQuery" 
+              name="search"
+              placeholder="Buscar eventos y viajes"
+              autocomplete="off">
+          </mat-form-field>
+        </form>
+      </div>
+      
+      <!-- Botones de autenticación: Mostrar solo si NO está autenticado -->
+      <div class="auth-buttons" *ngIf="!isUserAuthenticated()">
+        <button 
+          mat-button 
+          class="login-btn" 
+          routerLink="/auth/login">
+          Iniciar sesión
+        </button>
+        
+        <button 
+          mat-raised-button 
+          color="accent" 
+          class="register-btn" 
+          routerLink="/auth/registro">
+          Regístrate
+        </button>
+      </div>
+
+      <!-- Menú de usuario: Mostrar solo si ESTÁ autenticado -->
+      <div class="user-menu" *ngIf="isUserAuthenticated()">
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+          <mat-icon>account_circle</mat-icon>
+          <span>Mi Cuenta</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        
+        <mat-menu #userMenu="matMenu" class="user-dropdown">
+          <a mat-menu-item routerLink="/perfil">
+            <mat-icon>person</mat-icon>
+            <span>Mi Perfil</span>
+          </a>
+          <a mat-menu-item routerLink="/tickets">
+            <mat-icon>confirmation_number</mat-icon>
+            <span>Mis Boletos</span>
+          </a>
+          <!-- Solo mostrar Wallet para usuarios autenticados -->
+          <a mat-menu-item routerLink="/wallet">
+            <mat-icon>account_balance_wallet</mat-icon>
+            <span>Mi Wallet</span>
+          </a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</header>

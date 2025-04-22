@@ -1,0 +1,198 @@
+<div class="app-container" [ngClass]="{'dark-theme': isDarkTheme}">
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidenav - para dispositivos móviles y tabletas -->
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="false">
+      <div class="sidenav-header">
+        <a routerLink="/" class="logo-container">
+          <img src="assets/images/logo.svg" alt="Boletería" class="brand-logo">
+        </a>
+      </div>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/home" routerLinkActive="active">
+          <mat-icon>home</mat-icon>
+          <span>Inicio</span>
+        </a>
+        <a mat-list-item routerLink="/eventos" routerLinkActive="active">
+          <mat-icon>event</mat-icon>
+          <span>Eventos</span>
+        </a>
+        <a mat-list-item routerLink="/transporte" routerLinkActive="active">
+          <mat-icon>directions_bus</mat-icon>
+          <span>Transporte</span>
+        </a>
+        <a mat-list-item routerLink="/wallet" routerLinkActive="active">
+          <mat-icon>account_balance_wallet</mat-icon>
+          <span>Mi Wallet</span>
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item *ngIf="!isLoggedIn" routerLink="/auth/login">
+          <mat-icon>login</mat-icon>
+          <span>Iniciar Sesión</span>
+        </a>
+        <a mat-list-item *ngIf="!isLoggedIn" routerLink="/auth/register">
+          <mat-icon>person_add</mat-icon>
+          <span>Registrarse</span>
+        </a>
+        <a mat-list-item *ngIf="isLoggedIn" routerLink="/perfil">
+          <mat-icon>person</mat-icon>
+          <span>Mi Perfil</span>
+        </a>
+        <a mat-list-item *ngIf="isLoggedIn" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar Sesión</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content>
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-container">
+          <div class="header-left">
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              class="menu-button"
+              *ngIf="isHandset$ | async">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <a routerLink="/" class="logo-container">
+              <img src="assets/images/logo.svg" alt="Boletería" class="brand-logo">
+            </a>
+            <nav class="nav-links">
+              <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
+              <a routerLink="/eventos" routerLinkActive="active" class="nav-link">Eventos</a>
+              <a routerLink="/transporte" routerLinkActive="active" class="nav-link">Transporte</a>
+              <a routerLink="/wallet" routerLinkActive="active" class="nav-link">Mi Wallet</a>
+            </nav>
+          </div>
+
+          <div class="header-search">
+            <div class="search-bar">
+              <input 
+                type="text" 
+                placeholder="Buscar eventos, artistas o destinos" 
+                class="search-input" 
+                [class.search-input-focused]="searchFocused"
+                (focus)="searchFocused = true" 
+                (blur)="searchFocused = false">
+              <button class="search-button" aria-label="Buscar">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="header-right">
+            <button class="theme-toggle" (click)="toggleTheme()" aria-label="Cambiar tema">
+              <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            </button>
+
+            <a *ngIf="!isLoggedIn" mat-button routerLink="/auth/register" class="btn-outline">
+              Registrarse
+            </a>
+            
+            <a *ngIf="!isLoggedIn" mat-button routerLink="/auth/login" class="login-button">
+              <mat-icon>login</mat-icon>
+              <span>Iniciar</span>
+            </a>
+
+            <button *ngIf="isLoggedIn" mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+              <mat-icon>account_circle</mat-icon>
+              <span>Mi Cuenta</span>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <a mat-menu-item routerLink="/perfil">
+                <mat-icon>person</mat-icon>
+                <span>Mi Perfil</span>
+              </a>
+              <a mat-menu-item routerLink="/wallet">
+                <mat-icon>account_balance_wallet</mat-icon>
+                <span>Mi Wallet</span>
+              </a>
+              <a mat-menu-item routerLink="/historial">
+                <mat-icon>history</mat-icon>
+                <span>Historial</span>
+              </a>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Cerrar Sesión</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenido principal -->
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+
+      <!-- Footer -->
+      <footer class="main-footer">
+        <div class="footer-container footer-container--modern">
+          <div class="footer-modern-grid">
+            <div class="footer-brand-section">
+              <a routerLink="/" class="footer-logo-link">
+                <img src="assets/images/logo.svg" alt="Boletería" class="footer-brand-logo">
+              </a>
+              <div class="social-links-modern">
+                <a href="#" class="social-link" aria-label="Facebook">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                  <i class="bi bi-twitter-x"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="TikTok">
+                  <i class="bi bi-tiktok"></i>
+                </a>
+              </div>
+            </div>
+            
+            <div class="footer-links-modern">
+              <div class="footer-links-column">
+                <h3 class="footer-heading-modern">Ayuda</h3>
+                <a routerLink="/ayuda">Centro de ayuda</a>
+                <a routerLink="/contacto">Contacto</a>
+              </div>
+              
+              <div class="footer-links-column">
+                <h3 class="footer-heading-modern">Legal</h3>
+                <a routerLink="/terminos">Términos</a>
+                <a routerLink="/privacidad">Privacidad</a>
+              </div>
+            </div>
+            
+            <div class="payment-section">
+              <h3 class="footer-heading-modern">Pagos seguros</h3>
+              <div class="payment-icons-compact">
+                <div class="payment-icon-compact" aria-label="Visa">
+                  <mat-icon svgIcon="visa"></mat-icon>
+                </div>
+                <div class="payment-icon-compact" aria-label="PayPal">
+                  <mat-icon svgIcon="paypal"></mat-icon>
+                </div>
+                <div class="payment-icon-compact" aria-label="Yape">
+                  <mat-icon svgIcon="yape"></mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer-bottom-modern">
+            <p class="copyright-modern">&copy; {{ currentYear }} Boletería. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

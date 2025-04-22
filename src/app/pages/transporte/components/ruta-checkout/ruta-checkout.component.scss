@@ -1,0 +1,378 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.checkout-container {
+  background: $dark-bg-secondary;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-lg;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: $spacing-2xl;
+  animation: fadeIn 0.5s ease-out forwards;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-md;
+  }
+}
+
+.checkout-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    cursor: pointer;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-md;
+    transition: all $transition-base;
+
+    &:hover {
+      color: $primary-color;
+      background: rgba($primary-color, 0.1);
+    }
+
+    mat-icon {
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  .checkout-title {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 auto;
+  }
+}
+
+.checkout-summary {
+  background: rgba($dark-bg, 0.5);
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-xl;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  .summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    @media (max-width: $breakpoint-sm) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
+
+    .transport-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .bus-icon, .flight-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius-full;
+
+        mat-icon {
+          color: white;
+          font-size: 24px;
+        }
+      }
+
+      .bus-icon {
+        background: $gradient-blue;
+      }
+
+      .flight-icon {
+        background: linear-gradient(135deg, #9c27b0, #673ab7);
+      }
+
+      .transport-company {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+
+        .company-logo {
+          width: 32px;
+          height: 32px;
+          object-fit: contain;
+          border-radius: $border-radius-sm;
+        }
+
+        .company-name {
+          font-size: $font-size-md;
+          font-weight: 600;
+          color: $text-primary;
+        }
+      }
+    }
+
+    .route-badge {
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-full;
+      font-size: $font-size-sm;
+      font-weight: 600;
+    }
+  }
+
+  .summary-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+
+      .detail-label {
+        font-size: $font-size-xs;
+        color: $text-tertiary;
+        margin-bottom: $spacing-xs;
+      }
+
+      .detail-value {
+        font-size: $font-size-sm;
+        color: $text-primary;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .summary-price {
+    padding-top: $spacing-md;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+    .price-breakdown {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: $spacing-sm;
+
+      .price-item {
+        display: flex;
+        flex-direction: column;
+
+        .price-label {
+          font-size: $font-size-xs;
+          color: $text-tertiary;
+          margin-bottom: $spacing-xs;
+        }
+
+        .price-value {
+          font-size: $font-size-sm;
+          color: $text-primary;
+        }
+      }
+    }
+
+    .total-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $spacing-md;
+      padding-top: $spacing-md;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+
+      .total-label {
+        font-size: $font-size-md;
+        color: $text-primary;
+        font-weight: 600;
+      }
+
+      .total-value {
+        font-size: $font-size-lg;
+        color: $accent-teal;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.checkout-form {
+  ::ng-deep {
+    .mat-horizontal-stepper-header-container {
+      margin-bottom: $spacing-lg;
+    }
+
+    .mat-step-header {
+      .mat-step-icon {
+        background-color: $primary-color;
+      }
+
+      .mat-step-label {
+        color: $text-secondary;
+      }
+
+      &.mat-step-header-selected {
+        .mat-step-label {
+          color: $text-primary;
+        }
+      }
+    }
+
+    .mat-horizontal-stepper-content {
+      margin-left: $spacing-md;
+    }
+
+    .mat-form-field {
+      width: 100%;
+
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-form-field-flex {
+        background-color: rgba($dark-bg, 0.5);
+        border-radius: $border-radius-md !important;
+      }
+
+      .mat-form-field-outline {
+        color: rgba($text-tertiary, 0.2);
+      }
+
+      .mat-select-value, .mat-input-element {
+        color: $text-primary;
+      }
+
+      &.mat-focused {
+        .mat-form-field-outline {
+          color: $primary-color;
+        }
+      }
+    }
+
+    .mat-button-toggle-group {
+      border-radius: $border-radius-md;
+      border: 1px solid rgba($text-tertiary, 0.2);
+      overflow: hidden;
+
+      .mat-button-toggle {
+        background-color: rgba($dark-bg, 0.5);
+        color: $text-secondary;
+        transition: all $transition-base;
+
+        &.mat-button-toggle-checked {
+          background-color: rgba($primary-color, 0.2);
+          color: $primary-color;
+        }
+
+        .mat-button-toggle-label-content {
+          display: flex;
+          align-items: center;
+          gap: $spacing-xs;
+          padding: $spacing-sm $spacing-md;
+        }
+      }
+    }
+  }
+
+  .form-section-title {
+    font-size: $font-size-md;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  .passenger-form {
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .payment-methods {
+    margin-bottom: $spacing-lg;
+
+    .payment-methods-title {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  .step-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-md;
+    margin-top: $spacing-xl;
+
+    .back-btn, .next-btn, .confirm-btn {
+      padding: $spacing-sm $spacing-xl;
+      border-radius: $border-radius-md;
+      font-weight: 500;
+      transition: all $transition-base, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .back-btn {
+      background-color: transparent;
+      color: $text-secondary;
+      border: 1px solid rgba($text-tertiary, 0.2);
+
+      &:hover {
+        color: $text-primary;
+        background-color: rgba($text-tertiary, 0.1);
+      }
+    }
+
+    .next-btn {
+      @include button-secondary;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+
+    .confirm-btn {
+      @include button-primary;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

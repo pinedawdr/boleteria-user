@@ -1,0 +1,30 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <form class="auth-form" [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+      <h2 class="form-title">Recuperar Contraseña</h2>
+      <p class="form-subtitle">Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña</p>
+      
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="tucorreo@ejemplo.com"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+        <div *ngIf="submitted && f['email'].errors" class="error-message">
+          <span *ngIf="f['email'].errors['required']">El correo es requerido</span>
+          <span *ngIf="f['email'].errors['email']">Ingresa un correo válido</span>
+        </div>
+      </div>
+      
+      <div class="form-footer">
+        <button type="submit" class="auth-btn" [disabled]="loading">
+          <span *ngIf="!loading">Enviar Instrucciones</span>
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <p class="auth-link">¿Recordaste tu contraseña? <a routerLink="/auth/login">Iniciar sesión</a></p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,182 @@
+<div class="seats-selector-container">
+  <div class="seats-header">
+    <h3 class="seats-title">Selecciona {{ maxSelections > 1 ? 'tus asientos' : 'tu asiento' }}</h3>
+    <div class="seats-legend">
+      <div class="legend-item">
+        <div class="seat-example available"></div>
+        <span>Disponible</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-example selected"></div>
+        <span>Seleccionado</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-example occupied"></div>
+        <span>Ocupado</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="seats-map-container" [ngClass]="transportType">
+    <div class="transport-front">
+      <div class="front-label">
+        {{ {
+          'bus': 'FRENTE DEL BUS',
+          'avion': 'FRENTE DEL AVIÓN',
+          'combi': 'FRENTE DE LA COMBI',
+          'minibus': 'FRENTE DEL MINIBÚS',
+          'bote': 'PROA DEL BOTE'
+        }[transportType] }}
+      </div>
+    </div>
+    
+    <!-- Bus seats layout -->
+    <div class="seats-grid" *ngIf="transportType === 'bus'">
+      <div class="row" *ngFor="let row of totalRows">
+        <div class="row-number">{{ row }}</div>
+        <div class="seats-row-content">
+          <!-- Lado izquierdo -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(0, 2)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+          
+          <!-- Pasillo -->
+          <div class="aisle"></div>
+          
+          <!-- Lado derecho -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(2, 4)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Plane seats layout -->
+    <div class="seats-grid" *ngIf="transportType === 'avion'">
+      <div class="row" *ngFor="let row of totalRows">
+        <div class="row-number">{{ row }}</div>
+        <div class="seats-row-content">
+          <!-- Lado izquierdo -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(0, 3)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+          
+          <!-- Pasillo -->
+          <div class="aisle"></div>
+          
+          <!-- Lado derecho -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(3, 6)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Combi seats layout -->
+    <div class="seats-grid" *ngIf="transportType === 'combi'">
+      <div class="row" *ngFor="let row of totalRows">
+        <div class="row-number">{{ row }}</div>
+        <div class="seats-row-content">
+          <!-- Lado izquierdo (2 asientos) -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(0, 2)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+          
+          <!-- Pasillo -->
+          <div class="aisle"></div>
+          
+          <!-- Lado derecho (1 asiento) -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(2, 3)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Minibus seats layout -->
+    <div class="seats-grid" *ngIf="transportType === 'minibus'">
+      <div class="row" *ngFor="let row of totalRows">
+        <div class="row-number">{{ row }}</div>
+        <div class="seats-row-content">
+          <!-- Lado izquierdo -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(0, 2)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+          
+          <!-- Pasillo -->
+          <div class="aisle"></div>
+          
+          <!-- Lado derecho -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(2, 4)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Boat seats layout -->
+    <div class="seats-grid boat-layout" *ngIf="transportType === 'bote'">
+      <div class="row" *ngFor="let row of totalRows">
+        <div class="row-number">{{ row }}</div>
+        <div class="seats-row-content">
+          <!-- Sección delantera -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(0, 2)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+          
+          <!-- Pasillo/centro -->
+          <div class="aisle boat-center"></div>
+          
+          <!-- Sección trasera -->
+          <div 
+            *ngFor="let seat of getSeatsForRow(row).slice(2, 4)" 
+            [ngClass]="getSeatClasses(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat.number }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="selected-seats-summary" *ngIf="selectedSeats.length > 0">
+    <h4>Asientos seleccionados</h4>
+    <div class="selected-seats-list">
+      <div class="selected-seat-item" *ngFor="let seat of selectedSeats">
+        <span class="seat-number">{{ seat.number }}</span>
+        <span class="seat-price">S/{{ seat.price }}</span>
+      </div>
+    </div>
+    <div class="total-price" *ngIf="selectedSeats.length > 0">
+      <span>Total:</span>
+      <span class="price">S/{{ calculateTotalPrice() }}</span>
+    </div>
+  </div>
+</div>

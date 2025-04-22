@@ -1,0 +1,118 @@
+<section class="search-box">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="origin">Origen</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            id="origin"
+            formControlName="origin"
+            placeholder="Ciudad de origen"
+            (selectionChange)="updateDestinations($event.value)">
+            <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
+              {{ ciudad }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="searchForm.get('origin')?.hasError('required') && searchForm.get('origin')?.touched">
+            Selecciona una ciudad de origen
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-group">
+        <label for="destination">Destino</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            id="destination"
+            formControlName="destination"
+            placeholder="Ciudad de destino">
+            <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad"
+                       [disabled]="ciudad === searchForm.get('origin')?.value">
+              {{ ciudad }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="searchForm.get('destination')?.hasError('required') && searchForm.get('destination')?.touched">
+            Selecciona una ciudad de destino
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-group">
+        <label for="departureDate">Fecha de ida</label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="departurePicker"
+            formControlName="departureDate"
+            placeholder="DD/MM/YYYY"
+            [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+          <mat-datepicker #departurePicker></mat-datepicker>
+          <mat-error *ngIf="searchForm.get('departureDate')?.hasError('required') && searchForm.get('departureDate')?.touched">
+            Selecciona una fecha de ida
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-group">
+        <label for="transportType">Tipo de transporte</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            id="transportType"
+            formControlName="transportType"
+            placeholder="Tipo de transporte">
+            <mat-option value="all">Todos</mat-option>
+            <mat-option value="bus">Bus</mat-option>
+            <mat-option value="avion">Avión</mat-option>
+            <mat-option value="combi">Combi</mat-option>
+            <mat-option value="minibus">Minibús</mat-option>
+            <mat-option value="bote">Bote</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-group">
+        <label for="routeType">Tipo de ruta</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            id="routeType"
+            formControlName="routeType"
+            placeholder="Tipo de ruta">
+            <mat-option value="all">Todas</mat-option>
+            <mat-option value="nacional">Nacional</mat-option>
+            <mat-option value="regional">Regional</mat-option>
+            <mat-option value="provincial">Provincial</mat-option>
+            <mat-option value="distrital">Distrital</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-group">
+        <label for="passengers">Pasajeros</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            id="passengers"
+            formControlName="passengers"
+            placeholder="Nº de pasajeros">
+            <mat-option *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" [value]="n">
+              {{ n }} pasajero{{ n > 1 ? 's' : '' }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="form-action">
+        <button 
+          type="submit" 
+          class="search-btn"
+          [disabled]="loading">
+          <span *ngIf="!loading">
+            <mat-icon>search</mat-icon>
+            Buscar
+          </span>
+          <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

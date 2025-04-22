@@ -1,0 +1,205 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">Transporte</h1>
+    <p class="page-subtitle">Reserva boletos para buses, vuelos, combis, minibuses y botes a los mejores destinos del Perú</p>
+  </header>
+
+  <section class="filter-section">
+    <h2 class="filter-title">Buscar transporte</h2>
+    <form class="filter-form transport-search">
+      <div class="form-group">
+        <label for="origin">Origen</label>
+        <select id="origin" class="form-control" [(ngModel)]="searchCriteria.origin" name="origin">
+          <option value="">Selecciona origen</option>
+          <option value="Lima">Lima</option>
+          <option value="Arequipa">Arequipa</option>
+          <option value="Cusco">Cusco</option>
+          <option value="Trujillo">Trujillo</option>
+          <option value="Iquitos">Iquitos</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="destination">Destino</label>
+        <select id="destination" class="form-control" [(ngModel)]="searchCriteria.destination" name="destination">
+          <option value="">Selecciona destino</option>
+          <option value="Lima">Lima</option>
+          <option value="Arequipa">Arequipa</option>
+          <option value="Cusco">Cusco</option>
+          <option value="Trujillo">Trujillo</option>
+          <option value="Iquitos">Iquitos</option>
+          <option value="Valle Sagrado">Valle Sagrado</option>
+          <option value="Colca">Colca</option>
+          <option value="Reserva Pacaya Samiria">Reserva Pacaya Samiria</option>
+          <option value="Pachacamac">Pachacamac</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="date">Fecha de viaje</label>
+        <input type="date" id="date" class="form-control" [(ngModel)]="searchCriteria.date" name="date">
+      </div>
+      
+      <div class="form-group">
+        <label for="transport-type">Tipo de transporte</label>
+        <select id="transport-type" class="form-control" [(ngModel)]="searchCriteria.type" name="transportType">
+          <option value="all">Todos</option>
+          <option value="bus">Bus</option>
+          <option value="avion">Avión</option>
+          <option value="combi">Combi</option>
+          <option value="minibus">Minibús</option>
+          <option value="bote">Bote</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="route-type">Tipo de ruta</label>
+        <select id="route-type" class="form-control" [(ngModel)]="searchCriteria.routeType" name="routeType">
+          <option value="all">Todas</option>
+          <option value="nacional">Nacional</option>
+          <option value="regional">Regional</option>
+          <option value="provincial">Provincial</option>
+          <option value="distrital">Distrital</option>
+        </select>
+      </div>
+      
+      <div class="filter-actions">
+        <button type="button" class="filter-btn" (click)="searchTransports()">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+    </form>
+  </section>
+  
+  <div class="transport-type-tabs">
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'all'" (click)="filterByTransportType('all')">
+      Todos
+    </button>
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'bus'" (click)="filterByTransportType('bus')">
+      <i class="bi bi-bus-front"></i> Buses
+    </button>
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'avion'" (click)="filterByTransportType('avion')">
+      <i class="bi bi-airplane"></i> Vuelos
+    </button>
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'combi'" (click)="filterByTransportType('combi')">
+      <i class="bi bi-truck"></i> Combis
+    </button>
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'minibus'" (click)="filterByTransportType('minibus')">
+      <i class="bi bi-minecart-loaded"></i> Minibuses
+    </button>
+    <button class="tab-btn" [class.active]="searchCriteria.type === 'bote'" (click)="filterByTransportType('bote')">
+      <i class="bi bi-water"></i> Botes
+    </button>
+  </div>
+  
+  <div class="route-type-tabs">
+    <button class="route-tab-btn" [class.active]="searchCriteria.routeType === 'all'" (click)="filterByRouteType('all')">
+      Todas las rutas
+    </button>
+    <button class="route-tab-btn" [class.active]="searchCriteria.routeType === 'nacional'" (click)="filterByRouteType('nacional')">
+      Nacionales
+    </button>
+    <button class="route-tab-btn" [class.active]="searchCriteria.routeType === 'regional'" (click)="filterByRouteType('regional')">
+      Regionales
+    </button>
+    <button class="route-tab-btn" [class.active]="searchCriteria.routeType === 'provincial'" (click)="filterByRouteType('provincial')">
+      Provinciales
+    </button>
+    <button class="route-tab-btn" [class.active]="searchCriteria.routeType === 'distrital'" (click)="filterByRouteType('distrital')">
+      Distritales
+    </button>
+  </div>
+
+  <section class="transport-results">
+    <div class="results-info">
+      <div class="route-summary">
+        <span class="origin">{{ searchCriteria.origin || 'Cualquier origen' }}</span>
+        <i class="bi bi-arrow-right"></i>
+        <span class="destination">{{ searchCriteria.destination || 'Cualquier destino' }}</span>
+      </div>
+      <div class="results-count">
+        {{ filteredTransportOptions.length }} resultados encontrados
+      </div>
+    </div>
+    
+    <div class="transport-list">
+      <div class="transport-item" *ngFor="let option of filteredTransportOptions">
+        <div class="transport-card">
+          <div class="transport-card-header">
+            <div class="transport-company">
+              <img [src]="option.companyLogo" [alt]="option.companyName" class="company-logo">
+              <span class="company-name">{{ option.companyName }}</span>
+            </div>
+            <div class="transport-details">
+              <div class="transport-type">
+                <i [class]="getTransportIcon(option.type)"></i>
+                <span>{{ getTransportTypeName(option.type) }}</span>
+              </div>
+              <div class="route-type-badge">
+                {{ getRouteTypeName(option.routeType) }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="transport-route">
+            <div class="route-line"></div>
+            <div class="route-stops">
+              <div class="route-stop">
+                <span class="stop-time">{{ option.departureTime }}</span>
+                <div class="stop-icon origin"></div>
+                <span class="stop-city">{{ option.origin }}</span>
+              </div>
+              <div class="route-stop">
+                <span class="stop-time">{{ option.arrivalTime }}</span>
+                <div class="stop-icon destination"></div>
+                <span class="stop-city">{{ option.destination }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="transport-info">
+            <div class="info-item">
+              <span class="info-label">Duración</span>
+              <span class="info-value">{{ option.duration }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Fecha</span>
+              <span class="info-value">{{ option.date | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Clase</span>
+              <span class="info-value">{{ option.class }}</span>
+            </div>
+          </div>
+          
+          <div class="transport-footer">
+            <div class="transport-price">
+              <span class="price-label">Precio por persona</span>
+              <span class="price-value">S/{{ option.price }}</span>
+            </div>
+            <button class="transport-btn" [routerLink]="['/transporte', option.id]">Reservar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pagination" *ngIf="filteredTransportOptions.length > 0">
+      <button class="page-item" [class.disabled]="currentPage === 1">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button class="page-item" [class.active]="currentPage === 1">1</button>
+      <button class="page-item" [class.active]="currentPage === 2">2</button>
+      <button class="page-item" [class.active]="currentPage === 3">3</button>
+      <button class="page-item">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+    
+    <div class="empty-state" *ngIf="filteredTransportOptions.length === 0">
+      <i class="bi bi-map empty-icon"></i>
+      <h3 class="empty-title">No hay opciones de transporte disponibles</h3>
+      <p class="empty-message">No hemos encontrado opciones de transporte que coincidan con tus criterios de búsqueda. Intenta con otras fechas o destinos.</p>
+      <button class="empty-action" (click)="resetFilters()">Ver todas las opciones</button>
+    </div>
+  </section>
+</div>

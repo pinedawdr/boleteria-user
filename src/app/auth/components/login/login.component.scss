@@ -1,0 +1,134 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+  background: url('/assets/images/bg-pattern.jpg') center/cover;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  p {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 8px;
+
+  a {
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login-button {
+  height: 48px;
+  font-size: 16px;
+  margin-top: 8px;
+  position: relative;
+
+  .button-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.register-link {
+  text-align: center;
+  margin: 24px 0;
+
+  a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login-footer {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+
+  a {
+    color: #1976d2;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Estilos para el tema oscuro
+:host-context(.dark-theme) {
+  .login-container {
+    background: url('/assets/images/bg-pattern-dark.jpg') center/cover;
+  }
+
+  .login-card {
+    background-color: #303030;
+  }
+
+  .login-header {
+    h1 {
+      color: white;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .forgot-password a,
+  .register-link a,
+  .login-footer a {
+    color: #90caf9;
+  }
+
+  .login-footer {
+    color: rgba(255, 255, 255, 0.7);
+  }
+} 
